@@ -9,7 +9,7 @@ from bikePrediction import predict_balancing
 import requests
 import json
 
-key = "b4a8cf502c2afc3ecbfed7b30c2b831c"
+key = **
 model_arrivals = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
 model_departures = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
 
