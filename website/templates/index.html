@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- saved from url=(0126)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" type="text/css" href="./index_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./index_files/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+
+            <script src="./index_files/leaflet.js.téléchargement" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+        <title>Data Science Project</title>
+
+    <style data-jss="">
+.\#honey-offers\,\ \#honey-offers\ div-0-0-1 {
+  fontFamily: SuisseIntl, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+.\#honey-offers\ a-0-0-2 {
+  textDecoration: none;
+}
+</style></head>
+
+    <body data-new-gr-c-s-check-loaded="14.1035.0" data-gr-ext-installed="">
+        <header>
+
+        </header>
+
+        <section>
+            <nav>
+                <ul>
+                    <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
+                </ul>
+            </nav>
+            <div class="main">
+                <h1>Home</h1>
+
+                <div class="up">
+
+                	<div class="map">
+                		<div id="map"></div>
+                		<script>
+                            var map = L.map('map',{
+                            center: [60.192059, 24.945831],
+                            zoom: 12
+                            });
+
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
+
+                            var bikeIcon = L.icon({
+                                iconUrl: 'https://i.ibb.co/JpDjjbr/map-icon.png',
+                                iconSize: [50, 50],
+                                });
+                            var bikeIcon_red = L.icon({
+                                iconUrl: 'https://i.ibb.co/9hz1LHS/map-icon-red.png',
+                                iconSize: [50, 50],
+                                });
+                            var bikeIcon_violet = L.icon({
+                                iconUrl: 'https://i.ibb.co/YjNcw7G/map-icon-violet.png',
+                                iconSize: [50, 50],
+                                });
+
+
+                            {% for key,value in stations_coord.items() %}
+                                {% if bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] < 4 %}
+                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_red}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
+                                {% elif bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] < 4 %}
+                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
+                                {% else %}
+                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
+                                {% endif %}
+                            {% endfor %}
+
+                            var legend = L.control({position: 'bottomright'});
+                            legend.onAdd = function (map) {
+
+                                var div = L.DomUtil.create('div', 'info legend'),
+                                    grades = ["Stations with more than 4 bikes and spaces available","Stations with less than 4 bikes available", "Stations with less than 4 spaces available"],
+                                    labels = ["https://i.ibb.co/JpDjjbr/map-icon.png","https://i.ibb.co/9hz1LHS/map-icon-red.png","https://i.ibb.co/YjNcw7G/map-icon-violet.png"];
+
+                                // loop through our density intervals and generate a label with a colored square for each interval
+                                for (var i = 0; i < grades.length; i++) {
+                                    div.innerHTML +=
+                                         (" <img src="+ labels[i] +" height='50' width='50'>") + grades[i] +'<br>';
+                                }
+
+                                return div;
+                            };
+
+                            legend.addTo(map);
+
+                        </script>
+                	</div>
+
+                  	<div class="weather">
+                    	<p id="displayDate">25/10/2021</p><p id="displayTime">12:17</p>
+                      	<img src="./index_files/{{ weather[&#39;icon&#39;] }}@2x.png">
+                      	<p id="weather">{{ weather['temp'] }} °C<br><br>Precipitation: {{ weather['rain'] }} mm/h<br><br>Wind speed: {{ weather['wind'] }} m/s<br><br>Humidity: {{ weather['humidity'] }} %<br><br>Cloudiness: {{ weather['clouds'] }} %</p>
+                  	</div>
+
+                </div>
+
+
+
+
+                <div class="row justify-content-md-center mb-4">
+                    <h2 class="text-primary">Our predictions for the next six hours</h2>
+                </div>
+                <p class="text-primary">The following stations will have one bike or none</p>
+                
+                    {% for row in low %}
+                    
+                        {% for element in row %}
+                            
+                        {% endfor %}
+                    
+                    {% endfor %}
+                <table>
+                    <tbody><tr>
+                        <th>Time</th><th>Name of station</th>
+                    </tr><tr><td>{{ element }}</td></tr></tbody></table>
+                    <p class="text-primary">The following stations will have 15 or more bikes over their capacity</p>
+                    
+                        {% for row in high %}
+                        
+                            {% for element in row %}
+                                
+                            {% endfor %}
+                        
+                        {% endfor %}
+                    <table>
+                        <tbody><tr>
+                            <th>Time</th><th>Name of station</th><th>Number of bikes over station capacity</th>
+                        </tr><tr><td>{{ element }}</td></tr></tbody></table>
+            </div>
+
+        </section>
+
+        <footer>
+            <p>Made by Antti Kosonen, Lea Krautheimer  &amp; Katia Chardon in Autumn 2021</p>
+        </footer>
+    
+    <script type="text/javascript">
+            setTimeout(function () {
+              location.reload();
+            }, 60*5 * 1000);
+        </script>
+        <script type="text/javascript">
+          var today = new Date();
+          var date = today.getDate() + '/' + (today.getMonth()+1)+ '/' + today.getFullYear();
+          var time = today.getHours() + ":" + today.getMinutes();
+
+          document.getElementById("displayDate").innerHTML = date;
+          document.getElementById("displayTime").innerHTML = time;
+
+    </script>
+
+
+<a class="hss-abp-subscribe" href="abp:subscribe?location=https://www.joinhoney.com/whitelist/honey-smart-shopping.txt&amp;title=Honey-Smart-Shopping" style="position: fixed; display: block; opacity: 0; z-index: 2147483647;"></a></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

@@ -1,0 +1,176 @@
+@font-face {
+    font-family: titles;
+    src: url('amaranth-regular-webfont.woff2') format('woff2'),
+         url('amaranth-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: texts;
+  src: url('bainsley_roman-webfont.woff2') format('woff2'),
+         url('bainsley_roman-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: weather_font;
+  src: url('merriweather-regular-webfont.woff2') format('woff2'),
+         url('merriweather-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    background-color: #3d7cd1;
+  }
+
+header{
+    height: 300px;
+  background: url(bg2.png) no-repeat;
+    -webkit-background-size: 100% auto;
+    -moz-background-size: 100% auto;
+    -o-background-size: 100% auto;
+    background-size: 100% auto;
+}
+
+section{
+    display: flex;
+    flex-direction: row;
+}
+
+nav{
+    display: flex;
+    flex:1;
+    margin: 0 10px;
+    margin-left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    height: 10%;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200%;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+nav li a:hover {
+    background-color: rgba(85,85,85,0.5);
+    color: #fcb91b;
+}
+
+.main{
+
+    flex:3;
+    margin: 0 10px;
+    margin-right: 0;
+}
+
+footer{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    font-size: 0.7em;
+    height: 10%;
+}
+
+table {
+    text-align: center;
+    width:100%
+  }
+  tr:nth-child(even) {
+    background-color: #f0e49b;
+  }
+  tr:nth-child(odd) {
+    background-color: #c7e4f1;
+  }
+  th{
+      border-bottom: 1px solid black;
+  }
+
+  tr:hover {
+      background-color: #fcb91b;
+}
+
+.selected{
+    background-color: #fcb91b;
+}
+
+.select_station{
+      color: hsl(0, 0, 20);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.8em;
+      outline: none!important;
+      border: 1px solid hsla(0, 0, 0, 0.3);
+      box-shadow: inset 0 1px 4px hsla(0, 0, 0, 0.2);
+}
+
+
+h1{
+    font-family: titles;
+}
+p, label{
+    font-family: texts;
+}
+
+.weather{
+	background-color: white;
+    border-radius: 5px;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    text-align: center;
+}
+
+#weather, #displayDate, #displayTime {
+    font-family: weather_font;
+}
+
+.up{
+	display: flex;
+    justify-content: space-around;
+}
+
+.map{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.weather:hover{
+	background-color: #DADADA;
+}
+
+input[type = submit] {
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+}
+
+#map {
+    height:50em;
+    width:70em;
+}
+
+.info.legend {
+        background-color: white;
+        text-align: center;
+        border-radius: 10px;
+        display: flex;
+}
+

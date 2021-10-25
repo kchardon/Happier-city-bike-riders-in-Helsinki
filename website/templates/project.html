@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0128)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/project.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" type="text/css" href="./project_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Data Science Project</title>
+        <script type="text/javascript">
+            setTimeout(function () {
+              location.reload();
+            }, 60*5 * 1000);
+        </script>
+    <style data-jss="">
+.\#honey-offers\,\ \#honey-offers\ div-0-0-1 {
+  fontFamily: SuisseIntl, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+.\#honey-offers\ a-0-0-2 {
+  textDecoration: none;
+}
+</style></head>
+
+    <body data-new-gr-c-s-check-loaded="14.1035.0" data-gr-ext-installed="">
+        <header>
+
+        </header>
+
+        <section>
+            <nav>
+                <ul>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
+                    <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
+                </ul>
+            </nav>
+            <div class="main">
+                <h1>Stations in details</h1>
+                <p>Here, you can look at the predicted bikes and spaces available in the next 6 hours for all the stations.</p><br><br>
+
+                <form action="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">
+                    <label for="station">Which station do you want to see : </label>
+                    <select class="select_station" id="station" name="station">
+                        {% for key,value in stations.iterrows() %}
+                            <option value="{{ key }}">{{ value['name'] }} (id {{ key }})</option>
+                        {% endfor %}
+                    </select><br>
+                    <input type="submit" value="See the station"><br><br>
+                  </form>
+
+                
+                    {% for key,value in predictions.iterrows() %}
+                    
+                        {% for element in value %}
+                            
+                        {% endfor %}
+                    
+                    {% endfor %}
+                <table class="center">
+                    <tbody><tr>
+                        <th>Number of available bikes</th>
+                        <th>Number of available spaces</th>
+                        <th>Staion id</th>
+                        <th>Date &amp; Time</th>
+                        <th>Station name</th>
+                    </tr><tr><td>{{ element }}</td></tr></tbody></table>
+            </div>
+
+        </section>
+
+        <footer>
+            <p>Made by Antti Kosonen, Lea Krautheimer  &amp; Katia Chardon in Autumn 2021</p>
+        </footer>
+    
+
+
+<a class="hss-abp-subscribe" href="abp:subscribe?location=https://www.joinhoney.com/whitelist/honey-smart-shopping.txt&amp;title=Honey-Smart-Shopping" style="position: fixed; display: block; opacity: 0; z-index: 2147483647;"></a></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
