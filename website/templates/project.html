@@ -2,7 +2,7 @@
 <!-- saved from url=(0128)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/project.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <link rel="stylesheet" type="text/css" href="./project_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="stylesheet" type="text/css" href="./project_files/{{ url_for(&#39;static&#39;, filename=&#39;final.css&#39;)}}">
         <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Data Science Project</title>
@@ -30,12 +30,13 @@
                 <ul>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
                     <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
                 </ul>
             </nav>
             <div class="main">
                 <h1>Stations in details</h1>
-                <p>Here, you can look at the predicted bikes and spaces available in the next 6 hours for all the stations.</p><br><br>
+                <p>Here, you can look at the predicted bikes and spaces available in the next 6 hours for all the stations.<br>See the <a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About-page </a>to learn how these predictions were made</p><br>
 
                 <form action="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">
                     <label for="station">Which station do you want to see : </label>

@@ -119,11 +119,20 @@ table {
 }
 
 
-h1{
+h1,h2,h3,h4{
     font-family: titles;
 }
-p, label{
+p, label,li{
     font-family: texts;
+    font-size: 1.1em;
+}
+
+a{
+    color:#DEB81F;
+}
+
+a:hover{
+    color:#DEA91F;
 }
 
 .weather{
@@ -172,5 +181,9 @@ input[type = submit] {
         text-align: center;
         border-radius: 10px;
         display: flex;
+        font-size: 1.5em;
 }
 
+ul{
+    list-style-type:circle;
+}

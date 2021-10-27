@@ -2,7 +2,7 @@
 <!-- saved from url=(0126)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <link rel="stylesheet" type="text/css" href="./index_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="stylesheet" type="text/css" href="./index_files/{{ url_for(&#39;static&#39;, filename=&#39;final.css&#39;)}}">
         <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./index_files/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
@@ -29,11 +29,13 @@
                 <ul>
                     <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
                 </ul>
             </nav>
             <div class="main">
                 <h1>Home</h1>
+                <p>Current Status of the Bike System</p>
 
                 <div class="up">
 
@@ -66,8 +68,10 @@
                             {% for key,value in stations_coord.items() %}
                                 {% if bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] < 4 %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_red}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
-                                {% elif bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] < 4 %}
-                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
+                                {% elif (bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] == 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] + bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] + 10) %}
+                                	new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
+                                {% elif (bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] != 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] + 10) %}
+                                	new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
                                 {% else %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
                                 {% endif %}
@@ -77,7 +81,7 @@
                             legend.onAdd = function (map) {
 
                                 var div = L.DomUtil.create('div', 'info legend'),
-                                    grades = ["Stations with more than 4 bikes and spaces available","Stations with less than 4 bikes available", "Stations with less than 4 spaces available"],
+                                    grades = ["Stations with more than 4 bikes and spaces available","Stations with less than 4 bikes available", "Stations with 10 or more extra bikes"],
                                     labels = ["https://i.ibb.co/JpDjjbr/map-icon.png","https://i.ibb.co/9hz1LHS/map-icon-red.png","https://i.ibb.co/YjNcw7G/map-icon-violet.png"];
 
                                 // loop through our density intervals and generate a label with a colored square for each interval
@@ -95,7 +99,7 @@
                 	</div>
 
                   	<div class="weather">
-                    	<p id="displayDate">25/10/2021</p><p id="displayTime">12:17</p>
+                    	<p id="displayDate">27/10/2021</p><p id="displayTime">11:33</p>
                       	<img src="./index_files/{{ weather[&#39;icon&#39;] }}@2x.png">
                       	<p id="weather">{{ weather['temp'] }} °C<br><br>Precipitation: {{ weather['rain'] }} mm/h<br><br>Wind speed: {{ weather['wind'] }} m/s<br><br>Humidity: {{ weather['humidity'] }} %<br><br>Cloudiness: {{ weather['clouds'] }} %</p>
                   	</div>
@@ -107,6 +111,7 @@
 
                 <div class="row justify-content-md-center mb-4">
                     <h2 class="text-primary">Our predictions for the next six hours</h2>
+                    <p>See the <a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About-page </a>to learn how these predictions were made</p>
                 </div>
                 <p class="text-primary">The following stations will have one bike or none</p>
                 
@@ -121,7 +126,7 @@
                     <tbody><tr>
                         <th>Time</th><th>Name of station</th>
                     </tr><tr><td>{{ element }}</td></tr></tbody></table>
-                    <p class="text-primary">The following stations will have 15 or more bikes over their capacity</p>
+                    <p class="text-primary">The following stations will have 10 or more bikes over their capacity</p>
                     
                         {% for row in high %}
                         

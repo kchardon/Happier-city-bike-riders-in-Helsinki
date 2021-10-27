@@ -2,7 +2,7 @@
 <!-- saved from url=(0126)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/about.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <link rel="stylesheet" type="text/css" href="./about_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="stylesheet" type="text/css" href="./about_files/{{ url_for(&#39;static&#39;, filename=&#39;final.css&#39;)}}">
         <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Data Science Project</title>
@@ -25,12 +25,31 @@
                 <ul>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
                     <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
                 </ul>
             </nav>
             <div class="main">
                 <h1>About the Project</h1>
-                <p>blabla</p><br><br>
+                <h2>How does it work?</h2>
+                <p>We use Artificial Intelligence and particularly Machine Learning to predict how many departures and arrivals are going to happen at each station during the next six hours. These numbers are then added the current number of bikes at each station to find those that are going to run empty (zero or one bike), and those that are going to have a 10 or more extra bikes . For each such event we report the time we forecast it's going to happen.
+                </p>
+                <h3>Caveats</h3>
+                <ul>
+                    <li>The model cannot take into account balancing operations that the system operator is doing. Therefore the predictions are approximate.</li>
+                    <li>Forecasting is only done for the stations that existed in 2016-2017-2018-2019. The stations added since then are not included in the model. </li>
+                </ul>
+
+                <h2>Who is this for?</h2>
+                <p>The idea of our project is to make a tool for citybike-system operators to make the balancing of bikes much more effective. The added value of improved balancing operations is better user experience, which in turn leads to more cycling, with all the benefits that entails for society. When users learn that they can always find a bike at a station, the system becomes much more usable.</p>
+
+                <h2>What data did we use?</h2>
+                <p>To train the model we used the <a href="https://www.hsl.fi/en/hsl/open-data">bike journey data</a> provided by HSL and the <a href="https://en.ilmatieteenlaitos.fi/download-observations">weather observation data</a> from the Finnish Meteorological Institute for the years 2018 and 2019. We decided to not use the data from 2016 and 2017, because the system was not as developed as it is now; or the data from 2020 because it is too much influenced by the coronavirus pandemic.
+                For the real-time predictions we use current station status data from the <a href="https://digitransit.fi/en/developers/apis/1-routing-api/bicycling/">bike station API</a> of Digitransit and the real-time weather we get from the <a href="https://openweathermap.org/">OpenWeatherMap API</a>. These are then feeded to the model to generate predictions.
+                <br><br>The team
+                <br>We are Katia, Lea and Antti - three students from Data Science- and Bioinformatics-fields, studying in the University of Helsinki during the Autumn of 2021.</p>
+
+                <br><br>
             </div>
 
         </section>
