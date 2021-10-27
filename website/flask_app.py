@@ -9,9 +9,15 @@ from bikePrediction import predict_balancing
 import requests
 import json
 
+<<<<<<< HEAD
 key = "**"
 model_arrivals = pickle.load(open('model_arrivals.pkl','rb'))
 model_departures = pickle.load(open('model_departures.pkl','rb'))
+=======
+key = **
+model_arrivals = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
+model_departures = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
+>>>>>>> 8832a07b33bed4210581b56a78af80815db4b26f
 
 app = Flask(__name__)
 predictions_g = None
