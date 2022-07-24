@@ -3,13 +3,15 @@ from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 import pandas as pd
 from pyowm.owm import OWM
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import pickle
 from bikePrediction import predict_balancing
 import requests
 import json
+import numpy as np
+import re
 
-key = **
+key = "***"
 model_arrivals = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
 model_departures = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
 
@@ -21,6 +23,8 @@ predictions_g = None
 #We print the current weather, current status of the bike system and our predictions for the next 6 hours
 @app.route("/")
 def index():
+    if date.today().strftime("%m") not in ["04","05","06","07","08","09","10"]:
+        return render_template("sorry.html")
     low, high = predict_balancing()
     weather = get_current_weather()
     return render_template("index.html", low = low, high = high, weather = weather, stations_coord = json.load(open('/home/happierbikeridershelsinki/mysite/stations_coord.json')),bikes = get_bike_data())
@@ -49,16 +53,23 @@ def get_current_weather():
 #We print the map with our predictions for a chosen time
 @app.route("/mapsbytime")
 def maps():
+    if date.today().strftime("%m") not in ["04","05","06","07","08","09","10"]:
+        return render_template("sorry.html")
     time = request.args.get('time')
     times = get_time()
     stations = json.load(open('/home/happierbikeridershelsinki/mysite/stations_coord.json'))
     if time == None:
-        return render_template("maps.html", stations_coord = stations,bikes = get_bike_data(),times = times,selected = datetime.now().strftime('%d/%m/%Y %H:%M'))
+        bikes = get_bike_data()
+        bike_list = bikes['stationId'].values
+        return render_template("maps.html", stations_coord = stations,bikes = bikes, bike_list = bike_list,times = times,selected = datetime.now().strftime('%d/%m/%Y %H:%M'))
     else:
-        for key,value in stations.items():
-            value['stationId'] = int(value['stationId'])
+        for i,val in stations.items():
+            if re.match('(.)*[a-z]+(.)*',val['stationId']) == None:
+                val['stationId'] = int(val['stationId'])
         bikes = get_bikes_for_map()
-        return render_template("maps.html", stations_coord = stations,bikes = bikes.loc[bikes['datetime']==times.loc[int(time)][0]],times = times,selected = times.loc[int(time)][0].strftime('%d/%m/%Y %H:%M'))
+        bikes = bikes.loc[bikes['datetime']==times.loc[int(time)][0]]
+        bike_list = bikes['stationId'].values
+        return render_template("maps.html", stations_coord = stations,bikes = bikes, bike_list = bike_list,times = times,selected = times.loc[int(time)][0].strftime('%d/%m/%Y %H:%M'))
 
 def get_time():
     #Returns a list of time. We have every 30min in the next 6hours
@@ -77,7 +88,7 @@ def get_bikes_for_map():
     run_model()
     bikes, station_name = predictions_g
     bike_api = get_bike_data()
-    bike_api['stationId'] = bike_api['stationId'].astype(int)
+    bike_api.stationId = bike_api.stationId.astype(int)
     return bikes.merge(bike_api[['stationId','capacity']],left_on="id",right_on="stationId").drop(columns="id").rename(columns={'bikes_evolution':"bikesAvailable","spaces_evolution":"spacesAvailable"})
 
 
@@ -85,14 +96,15 @@ def get_bikes_for_map():
 #We show the predictions for the next 6 hours for a chosen station
 @app.route("/project")
 def project():
+    if date.today().strftime("%m") not in ["04","05","06","07","08","09","10"]:
+        return render_template("sorry.html")
     global predictions_g
     station_id = request.args.get('station')
+    run_model()
+    prediction, station_name = predictions_g
     if station_id == None:
-        run_model()
-        prediction, station_name = predictions_g
         return render_template("project.html",predictions = prediction.loc[prediction['id']==204], stations = station_name)
     else:
-        prediction, station_name = predictions_g
         return render_template("project.html",predictions = prediction.loc[prediction['id']==int(station_id)], stations = station_name)
 
 
@@ -110,10 +122,6 @@ def run_model():
     current_bikes = current_bikes.assign(key=1).merge(date.assign(key=1), on="key").drop("key", axis=1)
     current_bikes.rename(columns={'bikesAvailable':'bikes_evolution','spacesAvailable':'spaces_evolution','stationId':'id'},inplace=True)
 
-    #I drop the IDs containing letters
-    id_drop = current_bikes[current_bikes.id.str.contains('[^0-9]')].index
-    current_bikes.drop(id_drop,axis=0,inplace=True)
-
     #Dataframe with the stations used for predictions (we can only use the stations from 2019 and before because our model trained only on these data)
     station_id = pd.DataFrame(pd.read_json("/home/happierbikeridershelsinki/mysite/id.json",typ="series"))
     station_id.rename(columns ={0:'id'},inplace=True)
@@ -126,6 +134,7 @@ def run_model():
     current_bikes2 = current_bikes[['id','name']]
     station_name = station_id.merge(current_bikes2,on='id',how='left')
     station_name = station_name.set_index('id').sort_values(by='name')
+    station_name = station_name.dropna()
 
     #Creation of a dataframe with all the times (every 5min in the next 6hours)
     now = datetime.now()
@@ -161,9 +170,10 @@ def run_model():
     weather_data.rename(columns = {'to_int':'time'}, inplace = True)
 
     #Adding the other needed columns
+    weather_data.index = pd.to_datetime(weather_data.index)
+    weather_data['datetime'] = weather_data.index
     weather_data['day_of_week'] = weather_data.index.dayofweek
     weather_data['day_of_year'] = weather_data.index.dayofyear
-    weather_data['datetime'] = weather_data.index
 
     #Creating the final dataframe to be used in the model for predictions
     data = weather_data.assign(key=1).merge(station_id.assign(key=1), on="key").drop("key", axis=1)
@@ -188,13 +198,10 @@ def run_model():
     predict_df['datetime'] = pd.to_datetime(predict_df['datetime'] )
 
     predict_df = predict_df.sort_values(by='datetime')
-    predict_df['id'] = predict_df['id'].astype(int)
 
     predict_df2 = predict_df.groupby(['id']).cumsum()
     predict_df2 = predict_df2.assign(id=predict_df['id'])
     predict_df2 = predict_df2.assign(datetime = predict_df['datetime'])
-
-    current_bikes['id'] = current_bikes['id'].astype(int)
 
     predict_df2 = predict_df2.merge(current_bikes[['id','name']],on='id',how='left')
 
@@ -228,7 +235,13 @@ def get_bike_data():
 
     result = client.execute(query)
 
-    return pd.DataFrame(result['bikeRentalStations'])
+    current_bikes = pd.DataFrame(result['bikeRentalStations'])
+
+    #I drop the IDs containing letters
+    id_drop = current_bikes[current_bikes.stationId.str.contains('[^0-9]')].index
+    current_bikes.drop(id_drop,axis=0,inplace=True)
+
+    return current_bikes
 
 
 def get_weather_data():
@@ -242,13 +255,13 @@ def get_weather_data():
     one_call = mgr.one_call(lat=60.1733244, lon=24.9410248, exclude='minutely,daily,alerts', units='metric')
     n = 0
     for i in one_call.forecast_hourly:
-        row = {"datetime":(now+timedelta(hours=n)).strftime("%d/%m/%Y %H:00:00"),'Wind speed (m/s)':i.wind()['speed'],'Relative humidity (%)':i.humidity,'Air temperature (degC)':i.temperature()['temp'],'Precipitation intensity (mm/h)':i.rain,'Cloud amount (1/8)':i.clouds}
+        row = {"datetime":(now+timedelta(hours=n)).strftime("%Y-%m-%d %H:00:00"),'Wind speed (m/s)':i.wind()['speed'],'Relative humidity (%)':i.humidity,'Air temperature (degC)':i.temperature()['temp'],'Precipitation intensity (mm/h)':i.rain,'Cloud amount (1/8)':i.clouds}
         if row['Precipitation intensity (mm/h)'] == {}:
             row['Precipitation intensity (mm/h)'] = 0
         else:
             row['Precipitation intensity (mm/h)'] = row['Precipitation intensity (mm/h)']['1h']
         row['Cloud amount (1/8)'] = round((row['Cloud amount (1/8)']*8)/100)
-        df = df.append(row,ignore_index=True)
+        df = pd.concat([df,pd.DataFrame(row,index=[0])],ignore_index=True)
         n +=1
         if n == 7:
             break
@@ -263,5 +276,3 @@ def get_weather_data():
 def presentation():
     return render_template("about.html")
 
-if __name__ == "__main__":
-   app.run(debug=True, host='0.0.0.0', port='5000')
