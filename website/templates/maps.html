@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<!-- saved from url=(0125)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/maps.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <link rel="stylesheet" type="text/css" href="./maps_files/{{ url_for(&#39;static&#39;, filename=&#39;final.css&#39;)}}">
-        <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='trgu.css')}}">
+        <link rel="icon" href="{{ url_for('static', filename='icon.png')}}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./maps_files/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+        <link
+              rel="stylesheet"
+              href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+              integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+              crossorigin=""
+            />
 
-            <script src="./maps_files/leaflet.js.téléchargement" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+            <script
+              src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+              integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+              crossorigin=""
+            ></script>
         <title>Data Science Project</title>
-    <style data-jss="">
-.\#honey-offers\,\ \#honey-offers\ div-0-0-1 {
-  fontFamily: SuisseIntl, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-.\#honey-offers\ a-0-0-2 {
-  textDecoration: none;
-}
-</style></head>
+    </head>
 
-    <body data-new-gr-c-s-check-loaded="14.1035.0" data-gr-ext-installed="">
+    <body>
 
         <header>
 
@@ -27,23 +29,23 @@
         <section>
             <nav>
                 <ul>
-                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
-                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
-                    <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
-                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('project') }}">See stations in details</a></li>
+                    <li class= selected><a href="{{ url_for('maps') }}">See times in details</a></li>
+                    <li><a href="{{ url_for('presentation') }}">About the Project</a></li>
                 </ul>
             </nav>
-            <div class="main">
-            <div class="map">
+            <div class = main>
+            <div class=map>
 
                     <h1>Times in details</h1>
-                    <p>Here, you can look at a map showing our predictions for a chosen time in the next 6 hours.<br>See the <a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About-page </a>to learn how these predictions were made.</p><br>
+                    <p>Here, you can look at a map showing our predictions for a chosen time in the next 6 hours.<br>See the <a href="{{ url_for('presentation') }}">About-page </a>to learn how these predictions were made.</p><br>
 
-                    <form action="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">
+                    <form action="{{ url_for('maps') }}">
                         <label for="time">Which time do you want to see : </label>
-                        <select class="select_time" id="time" name="time">
+                        <select class = select_time id="time" name="time">
                             {% for key,value in times.iterrows() %}
-                                <option value="{{ key }}">{{ value[0] }}</option>
+                                <option value ='{{ key }}' >{{ value[0] }}</option>
                             {% endfor %}
                         </select><br>
                         <input type="submit" value="See the map"><br>
@@ -75,12 +77,13 @@
 
 
                         {% for key,value in stations_coord.items() %}
-                            {% if value['stationId'] in bikes['stationId'].values %}
-                                {% if bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] < 4 %}
+                            {% if value['stationId'] in bike_list %}
+                                {% set id_int = value['stationId'] %}
+                                {% if bikes.loc[bikes['stationId'] == id_int ]['bikesAvailable'].iloc[0] < 4 %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_red}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
-                                {% elif (bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] == 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] + bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] + 10) %}
+                                {% elif (bikes.loc[bikes['stationId']== id_int ]['capacity'].iloc[0] == 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] + bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] + 10) %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
-                                {% elif (bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] != 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] + 10) %}
+                                {% elif (bikes.loc[bikes['stationId']== id_int ]['capacity'].iloc[0] != 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] + 10) %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
                                 {% else %}
                                     new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
@@ -110,9 +113,8 @@
                 </div></div>
             </section>
         <footer>
-            <p>Made by Antti Kosonen, Lea Krautheimer  &amp; Katia Chardon in Autumn 2021</p>
+            <p>Made by Antti Kosonen, Lea Krautheimer  & Katia Chardon in Autumn 2021</p>
         </footer>
-    
+    </body>
 
-
-<a class="hss-abp-subscribe" href="abp:subscribe?location=https://www.joinhoney.com/whitelist/honey-smart-shopping.txt&amp;title=Honey-Smart-Shopping" style="position: fixed; display: block; opacity: 0; z-index: 2147483647;"></a></body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
+</html>
