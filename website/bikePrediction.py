@@ -13,7 +13,7 @@ stations_in_dataset = [76.0, 64.0, 30.0, 69.0,  6.0, 11.0, 118.0, 130.0, 44.0, 4
 
 def get_current_station_status():
     transport = RequestsHTTPTransport(
-    url="https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
+    url="https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql?digitransit-subscription-key="+hsl_key,
     verify=True, retries=3,)
 
     client = Client(transport=transport, fetch_schema_from_transport=True)

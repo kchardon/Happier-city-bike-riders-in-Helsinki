@@ -215,7 +215,7 @@ def run_model():
 def get_bike_data():
     #Returns the current bike data
     transport = RequestsHTTPTransport(
-    url="https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql", verify=True, retries=3)
+    url="https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql?digitransit-subscription-key="+hsl_key, verify=True, retries=3)
 
     client = Client(transport=transport, fetch_schema_from_transport=True)
 
