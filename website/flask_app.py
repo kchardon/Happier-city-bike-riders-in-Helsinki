@@ -12,8 +12,8 @@ import numpy as np
 import re
 from api_keys import weather_key, hsl_key
 
-model_arrivals = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
-model_departures = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
+model_arrivals = pickle.load(open('model_arrivals.pkl','rb'))
+model_departures = pickle.load(open('model_departures.pkl','rb'))
 
 app = Flask(__name__)
 predictions_g = None
@@ -27,7 +27,7 @@ def index():
         return render_template("sorry.html")
     low, high = predict_balancing()
     weather = get_current_weather()
-    return render_template("index.html", low = low, high = high, weather = weather, stations_coord = json.load(open('/home/happierbikeridershelsinki/mysite/stations_coord.json')),bikes = get_bike_data())
+    return render_template("index.html", low = low, high = high, weather = weather, stations_coord = json.load(open('stations_coord.json')),bikes = get_bike_data())
 
 def get_current_weather():
     #Returns the current weather information
@@ -57,7 +57,7 @@ def maps():
         return render_template("sorry.html")
     time = request.args.get('time')
     times = get_time()
-    stations = json.load(open('/home/happierbikeridershelsinki/mysite/stations_coord.json'))
+    stations = json.load(open('stations_coord.json'))
     if time == None:
         bikes = get_bike_data()
         bike_list = bikes['stationId'].values
@@ -123,7 +123,7 @@ def run_model():
     current_bikes.rename(columns={'bikesAvailable':'bikes_evolution','spacesAvailable':'spaces_evolution','stationId':'id'},inplace=True)
 
     #Dataframe with the stations used for predictions (we can only use the stations from 2019 and before because our model trained only on these data)
-    station_id = pd.DataFrame(pd.read_json("/home/happierbikeridershelsinki/mysite/id.json",typ="series"))
+    station_id = pd.DataFrame(pd.read_json("stations_id.json",typ="series"))
     station_id.rename(columns ={0:'id'},inplace=True)
     station_id.drop_duplicates("id",inplace=True)
 
@@ -249,7 +249,7 @@ def get_weather_data():
     now = datetime.now()
     df = pd.DataFrame(columns=["datetime",'Wind speed (m/s)','Relative humidity (%)','Air temperature (degC)','Precipitation intensity (mm/h)','Cloud amount (1/8)'])
 
-    owm = OWM(key)
+    owm = OWM(weather_key)
     mgr = owm.weather_manager()
 
     one_call = mgr.one_call(lat=60.1733244, lon=24.9410248, exclude='minutely,daily,alerts', units='metric')
