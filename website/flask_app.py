@@ -10,8 +10,8 @@ import requests
 import json
 import numpy as np
 import re
+from api_keys import weather_key, hsl_key
 
-key = "***"
 model_arrivals = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
 model_departures = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
 
@@ -32,7 +32,7 @@ def index():
 def get_current_weather():
     #Returns the current weather information
 
-    owm = OWM(key)
+    owm = OWM(weather_key)
     mgr = owm.weather_manager()
 
     one_call = mgr.one_call(lat=60.1733244, lon=24.9410248, exclude='minutely,daily,alerts', units='metric')

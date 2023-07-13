@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<!-- saved from url=(0125)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/maps.html -->
+<!-- saved from url=(0126)https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/sorry.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
-        <link rel="stylesheet" type="text/css" href="./maps_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
+        <link rel="stylesheet" type="text/css" href="./sorry_files/{{ url_for(&#39;static&#39;, filename=&#39;trgu.css&#39;)}}">
         <link rel="icon" href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;static&#39;,%20filename=&#39;icon.png&#39;)%7D%7D">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./maps_files/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+        <link rel="stylesheet" href="./sorry_files/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
 
-            <script src="./maps_files/leaflet.js.téléchargement" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+            <script src="./sorry_files/leaflet.js.téléchargement" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
         <title>Data Science Project</title>
+
     <style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
 @keyframes caretBlink {
     from { opacity: 1.0; }
@@ -187,7 +188,6 @@
 </style></head>
 
     <body data-new-gr-c-s-check-loaded="14.1115.0" data-gr-ext-installed="">
-
         <header>
 
         </header>
@@ -197,87 +197,18 @@
                 <ul>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;index&#39;)%20%7D%7D">Home</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;project&#39;)%20%7D%7D">See stations in details</a></li>
-                    <li class="selected"><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
+                    <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">See times in details</a></li>
                     <li><a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About the Project</a></li>
                 </ul>
             </nav>
             <div class="main">
-            <div class="map">
+                <h1>Sorry...</h1>
+                <p>Our website cannot work right now because the bike system works only from April until October.<br>Come back during next season !</p>
 
-                    <h1>Times in details</h1>
-                    <p>Here, you can look at a map showing our predictions for a chosen time in the next 6 hours.<br>See the <a href="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;presentation&#39;)%20%7D%7D">About-page </a>to learn how these predictions were made.</p><br>
+            </div>
 
-                    <form action="https://www.pythonanywhere.com/user/happierbikeridershelsinki/files/home/happierbikeridershelsinki/mysite/templates/%7B%7B%20url_for(&#39;maps&#39;)%20%7D%7D">
-                        <label for="time">Which time do you want to see : </label>
-                        <select class="select_time" id="time" name="time">
-                            {% for key,value in times.iterrows() %}
-                                <option value="{{ key }}">{{ value[0] }}</option>
-                            {% endfor %}
-                        </select><br>
-                        <input type="submit" value="See the map"><br>
-                      </form>
-                    <p>Time on the map : {{ selected }}</p>
-                    <div id="map"></div>
-                    <script>
-                        var map = L.map('map',{
-                        center: [60.192059, 24.945831],
-                        zoom: 12
-                        });
+        </section>
 
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        }).addTo(map);
-
-                        var bikeIcon = L.icon({
-                            iconUrl: 'https://i.ibb.co/JpDjjbr/map-icon.png',
-                            iconSize: [50, 50],
-                            });
-                        var bikeIcon_red = L.icon({
-                            iconUrl: 'https://i.ibb.co/9hz1LHS/map-icon-red.png',
-                            iconSize: [50, 50],
-                            });
-                        var bikeIcon_violet = L.icon({
-                            iconUrl: 'https://i.ibb.co/YjNcw7G/map-icon-violet.png',
-                            iconSize: [50, 50],
-                            });
-
-
-                        {% for key,value in stations_coord.items() %}
-                            {% if value['stationId'] in bike_list %}
-                                {% set id_int = value['stationId'] %}
-                                {% if bikes.loc[bikes['stationId'] == id_int ]['bikesAvailable'].iloc[0] < 4 %}
-                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_red}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
-                                {% elif (bikes.loc[bikes['stationId']== id_int ]['capacity'].iloc[0] == 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] + bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] + 10) %}
-                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
-                                {% elif (bikes.loc[bikes['stationId']== id_int ]['capacity'].iloc[0] != 0)and(bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] >= bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] + 10) %}
-                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon_violet}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available<br>{{ -(bikes.loc[bikes['stationId']==value['stationId']]['capacity'].iloc[0] - bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0]) }} extra bikes</center>').addTo(map);
-                                {% else %}
-                                    new L.marker([{{ value['lat'] }}, {{ value['lon'] }}], {icon: bikeIcon}).bindPopup('<center>{{ value['name'] }}<br>ID {{ value['stationId'] }}<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['bikesAvailable'].iloc[0] }} bikes available<br>{{ bikes.loc[bikes['stationId']==value['stationId']]['spacesAvailable'].iloc[0] }} spaces available</center>').addTo(map);
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-
-                        var legend = L.control({position: 'bottomright'});
-                        legend.onAdd = function (map) {
-
-                            var div = L.DomUtil.create('div', 'info legend'),
-                                grades = ["Stations with more than 4 bikes and spaces available","Stations with less than 4 bikes available", "Stations with 10 or more extra bikes"],
-                                labels = ["https://i.ibb.co/JpDjjbr/map-icon.png","https://i.ibb.co/9hz1LHS/map-icon-red.png","https://i.ibb.co/YjNcw7G/map-icon-violet.png"];
-
-                            // loop through our density intervals and generate a label with a colored square for each interval
-                            for (var i = 0; i < grades.length; i++) {
-                                div.innerHTML +=
-                                        (" <img src="+ labels[i] +" height='50' width='50'>") + grades[i] +'<br>';
-                            }
-
-                            return div;
-                        };
-
-                        legend.addTo(map);
-
-                    </script>
-                </div></div>
-            </section>
         <footer>
             <p>Made by Antti Kosonen, Lea Krautheimer  &amp; Katia Chardon in Autumn 2021</p>
         </footer>
