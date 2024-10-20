@@ -37,7 +37,7 @@ def get_current_weather():
 
     one_call = mgr.one_call(lat=60.1733244, lon=24.9410248, exclude='minutely,daily,alerts', units='metric')
     cweather = {}
-    cweather['icon'] = requests.get("https://api.openweathermap.org/data/2.5/onecall?lat=60.1733244&lon=24.9410248&exclude=minutely,daily,alerts,hourly&appid=b4a8cf502c2afc3ecbfed7b30c2b831c&units=metric").json()["current"]['weather'][0]['icon']
+    cweather['icon'] = requests.get("https://api.openweathermap.org/data/3.0/onecall?lat=60.1733244&lon=24.9410248&exclude=minutely,daily,alerts,hourly&appid="+weather_key+"&units=metric").json()["current"]['weather'][0]['icon']
     cweather['temp'] = one_call.current.temp['temp']
     cweather['humidity'] = one_call.current.humidity
     cweather['clouds'] = one_call.current.clouds
