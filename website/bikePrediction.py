@@ -64,8 +64,8 @@ def get_weather():
 
 
 def predict_balancing():
-    arrival_model = pickle.load(open('model_arrivals.pkl','rb'))
-    departure_model = pickle.load(open('model_departures.pkl','rb'))
+    arrival_model = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_arrivals.pkl','rb'))
+    departure_model = pickle.load(open('/home/happierbikeridershelsinki/mysite/model_departures.pkl','rb'))
     station_status = get_current_station_status()
     times = get_time_codes()
     weather = get_weather()
